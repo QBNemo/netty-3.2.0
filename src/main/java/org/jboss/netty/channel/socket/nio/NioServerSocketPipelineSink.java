@@ -245,6 +245,7 @@ class NioServerSocketPipelineSink extends AbstractChannelSink {
                     }
 
                     SocketChannel acceptedSocket = channel.socket.accept();
+                    // 轮询等待新的客户端连接
                     if (acceptedSocket != null) {
                         registerAcceptedChannel(acceptedSocket, currentThread);
                     }
