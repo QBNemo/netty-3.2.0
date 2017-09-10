@@ -25,6 +25,8 @@ import org.jboss.netty.logging.InternalLoggerFactory;
 import org.jboss.netty.util.ThreadRenamingRunnable;
 import org.jboss.netty.util.internal.IoWorkerRunnable;
 import org.jboss.netty.util.internal.LinkedTransferQueue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.SocketAddress;
@@ -74,10 +76,13 @@ class NioWorker implements Runnable {
     private final SocketReceiveBufferPool recvBufferPool = new SocketReceiveBufferPool();
     private final SocketSendBufferPool sendBufferPool = new SocketSendBufferPool();
 
+    protected Logger log = LoggerFactory.getLogger(this.getClass());
+    
     NioWorker(int bossId, int id, Executor executor) {
         this.bossId = bossId;
         this.id = id;
         this.executor = executor;
+        log.debug(this.toString());
     }
 
     void register(NioSocketChannel channel, ChannelFuture future) {
@@ -782,4 +787,15 @@ class NioWorker implements Runnable {
             }
         }
     }
+
+	@Override
+	public String toString() {
+        StringBuilder buf = new StringBuilder(64);
+        buf.append("[");
+        buf.append("bossId: " + this.bossId);
+        buf.append(", id: " + this.id);
+        buf.append(", executor: " + this.executor.toString());
+        buf.append(']');
+        return buf.toString(); 
+	}
 }

@@ -789,6 +789,11 @@ public class DefaultChannelPipeline implements ChannelPipeline {
 	        buf.append(']');
 	        return buf.toString(); 
 		}
+		
+		@Override
+		public String toString() {
+			return "[context: " + super.toString() + "]";
+		}
     }
 
     private static final class DiscardingChannelSink implements ChannelSink {
