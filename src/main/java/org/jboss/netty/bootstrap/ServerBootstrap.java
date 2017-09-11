@@ -334,7 +334,7 @@ public class ServerBootstrap extends Bootstrap {
                 Map<String, Object> allOptions = getOptions();
                 Map<String, Object> parentOptions = new HashMap<String, Object>();
                 for (Entry<String, Object> e: allOptions.entrySet()) {
-                    if (e.getKey().startsWith("child.")) {
+                    if (e.getKey().startsWith("child.")) { // childOption
                         childOptions.put(
                                 e.getKey().substring(6),
                                 e.getValue());
