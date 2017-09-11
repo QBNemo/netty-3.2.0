@@ -60,7 +60,7 @@ public abstract class AbstractSocketServerBootstrapTest {
 
         Socket s = new Socket();
         try {
-            s.setReceiveBufferSize(1234);
+            s.setReceiveBufferSize(1234); // 64k:65536, 8k:8192
             try {
                 if (s.getReceiveBufferSize() != 1234) {
                     throw new IllegalStateException();

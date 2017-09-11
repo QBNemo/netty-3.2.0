@@ -22,6 +22,8 @@ import org.jboss.netty.buffer.ChannelBufferFactory;
 import org.jboss.netty.buffer.HeapChannelBufferFactory;
 import org.jboss.netty.channel.socket.SocketChannelConfig;
 import org.jboss.netty.util.internal.ConversionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The default {@link SocketChannelConfig} implementation.
@@ -37,6 +39,8 @@ public class DefaultChannelConfig implements ChannelConfig {
     private volatile ChannelBufferFactory bufferFactory = HeapChannelBufferFactory.getInstance();
     private volatile int connectTimeoutMillis = 10000; // 10 seconds
 
+    private Logger log = LoggerFactory.getLogger(this.getClass());
+    
     /**
      * Creates a new instance.
      */
@@ -51,6 +55,7 @@ public class DefaultChannelConfig implements ChannelConfig {
     }
 
     public boolean setOption(String key, Object value) {
+    	log.debug(key + "=" + value.toString());
         if (key.equals("pipelineFactory")) {
             setPipelineFactory((ChannelPipelineFactory) value);
         } else if (key.equals("connectTimeoutMillis")) {

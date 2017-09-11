@@ -19,6 +19,8 @@ import org.jboss.netty.channel.ChannelDownstreamHandler;
 import org.jboss.netty.channel.ChannelEvent;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelUpstreamHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A dummy handler for a testing purpose.
@@ -29,14 +31,17 @@ import org.jboss.netty.channel.ChannelUpstreamHandler;
  * @version $Rev$, $Date$
  */
 public class DummyHandler implements ChannelUpstreamHandler, ChannelDownstreamHandler {
-
+    private Logger log = LoggerFactory.getLogger(this.getClass());
+    
     public void handleUpstream(ChannelHandlerContext ctx, ChannelEvent e)
             throws Exception {
+    	log.debug("[handler: " + this.toString() + "]" + " >> " + e.toString());
         ctx.sendUpstream(e);
     }
 
     public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent e)
             throws Exception {
+    	log.debug("[handler: " + this.toString() + "]" + " >> " + e.toString());
         ctx.sendDownstream(e);
     }
 }

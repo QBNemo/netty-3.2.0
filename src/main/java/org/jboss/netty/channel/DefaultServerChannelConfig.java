@@ -21,6 +21,8 @@ import java.util.Map.Entry;
 import org.jboss.netty.buffer.ChannelBufferFactory;
 import org.jboss.netty.buffer.HeapChannelBufferFactory;
 import org.jboss.netty.channel.socket.ServerSocketChannelConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The default {@link ServerSocketChannelConfig} implementation.
@@ -35,6 +37,8 @@ public class DefaultServerChannelConfig implements ChannelConfig {
     private volatile ChannelPipelineFactory pipelineFactory;
     private volatile ChannelBufferFactory bufferFactory = HeapChannelBufferFactory.getInstance();
 
+    private Logger log = LoggerFactory.getLogger(this.getClass());
+    
     /**
      * Creates a new instance.
      */
@@ -53,6 +57,7 @@ public class DefaultServerChannelConfig implements ChannelConfig {
      * additional configuration parameters.
      */
     public boolean setOption(String key, Object value) {
+    	log.debug(key + "=" + value.toString());
         if (key.equals("pipelineFactory")) {
             setPipelineFactory((ChannelPipelineFactory) value);
         } else if (key.equals("bufferFactory")) {

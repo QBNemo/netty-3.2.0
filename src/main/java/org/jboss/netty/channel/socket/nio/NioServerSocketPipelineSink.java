@@ -151,7 +151,7 @@ class NioServerSocketPipelineSink extends AbstractChannelSink {
             future.setSuccess();
             fireChannelBound(channel, channel.getLocalAddress());
             
-            log.debug("NIO server boss start###"); // add
+            log.debug("NIO server boss start && " + channel.toString()); // add
             
             Executor bossExecutor =
                 ((NioServerSocketChannelFactory) channel.getFactory()).bossExecutor;
@@ -165,7 +165,7 @@ class NioServerSocketPipelineSink extends AbstractChannelSink {
             bossStarted = true;
         } catch (Throwable t) {
             future.setFailure(t);
-            fireExceptionCaught(channel, t);
+            fireExceptionCaught(channel, t); // bind failed
         } finally {
             if (!bossStarted && bound) {
                 close(channel, future);

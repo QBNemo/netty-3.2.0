@@ -43,6 +43,7 @@ public class EchoServer {
                         Executors.newCachedThreadPool()));
 
         // Set up the pipeline factory.
+        // ChannelPipelineFactory : org.jboss.netty.example.echo.EchoServer$1@605036e8
         // 返回与客户端连接的pipeline, 类型DefaultChannelPipeline
         bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
             public ChannelPipeline getPipeline() throws Exception {
