@@ -278,6 +278,7 @@ class NioServerSocketPipelineSink extends AbstractChannelSink {
                     channel.getConfig().getPipelineFactory().getPipeline();
                 NioWorker worker = nextWorker();
                 // log.debug(channel.toString() + " :: " + worker.toString()); // 未加入线程池, register加入
+                // New I/O server worker最多workers.length个, 被多个NioAcceptedSocketChannel复用
                 worker.register(new NioAcceptedSocketChannel(
                         channel.getFactory(), pipeline, channel,
                         NioServerSocketPipelineSink.this, acceptedSocket,

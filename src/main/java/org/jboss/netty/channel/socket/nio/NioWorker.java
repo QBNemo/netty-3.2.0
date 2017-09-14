@@ -758,6 +758,7 @@ class NioWorker implements Runnable {
             try {
                 if (server) {
                     channel.socket.configureBlocking(false);
+                    log.debug(channel.toString() + " configureBlocking(false)");
                 }
 
                 synchronized (channel.interestOpsLock) {
