@@ -82,7 +82,6 @@ class NioWorker implements Runnable {
         this.bossId = bossId;
         this.id = id;
         this.executor = executor;
-        log.debug(this.toString());
     }
 
     void register(NioSocketChannel channel, ChannelFuture future) {
@@ -112,6 +111,7 @@ class NioWorker implements Runnable {
                             new IoWorkerRunnable(
                                     new ThreadRenamingRunnable(this, threadName)));
                     success = true;
+                    log.debug(channel.toString() + " :: " + this.toString()); // 加入线程池
                 } finally {
                     if (!success) {
                         // Release the Selector if the execution fails.
