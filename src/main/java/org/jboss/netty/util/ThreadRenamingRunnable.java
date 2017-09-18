@@ -17,6 +17,8 @@ package org.jboss.netty.util;
 
 import org.jboss.netty.logging.InternalLogger;
 import org.jboss.netty.logging.InternalLoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -41,6 +43,8 @@ public class ThreadRenamingRunnable implements Runnable {
     private static volatile ThreadNameDeterminer threadNameDeterminer =
         ThreadNameDeterminer.PROPOSED;
 
+    protected Logger log = LoggerFactory.getLogger(this.getClass());
+    
     /**
      * Returns the {@link ThreadNameDeterminer} which overrides the proposed
      * new thread name.
@@ -93,6 +97,7 @@ public class ThreadRenamingRunnable implements Runnable {
         // Change the thread name before starting the actual runnable.
         boolean renamed = false;
         if (!oldThreadName.equals(newThreadName)) {
+        	log.debug("ThreadRenaming: " + oldThreadName + " >> " + newThreadName);
             try {
                 currentThread.setName(newThreadName);
                 renamed = true;
