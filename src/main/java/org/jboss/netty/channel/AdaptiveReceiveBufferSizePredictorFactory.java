@@ -15,6 +15,8 @@
  */
 package org.jboss.netty.channel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The {@link ReceiveBufferSizePredictorFactory} that creates a new
@@ -31,7 +33,8 @@ public class AdaptiveReceiveBufferSizePredictorFactory implements
     private final int minimum;
     private final int initial;
     private final int maximum;
-
+    protected Logger log = LoggerFactory.getLogger(this.getClass());
+    
     /**
      * Creates a new factory with the default parameters.  With the default
      * parameters, the expected buffer size starts from {@code 1024}, does not

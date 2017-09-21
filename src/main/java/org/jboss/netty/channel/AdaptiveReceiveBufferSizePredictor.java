@@ -18,6 +18,9 @@ package org.jboss.netty.channel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * The {@link ReceiveBufferSizePredictor} that automatically increases and
  * decreases the predicted buffer size on feed back.
@@ -45,7 +48,8 @@ public class AdaptiveReceiveBufferSizePredictor implements
     private static final int INDEX_DECREMENT = 1;
 
     private static final int[] SIZE_TABLE;
-
+    protected Logger log = LoggerFactory.getLogger(this.getClass());
+    
     static {
         List<Integer> sizeTable = new ArrayList<Integer>();
         for (int i = 1; i <= 8; i ++) {
@@ -150,6 +154,7 @@ public class AdaptiveReceiveBufferSizePredictor implements
     }
 
     public int nextReceiveBufferSize() {
+    	log.debug("    PredictedRecvBufSize: " + nextReceiveBufferSize);
         return nextReceiveBufferSize;
     }
 
@@ -167,5 +172,6 @@ public class AdaptiveReceiveBufferSizePredictor implements
             nextReceiveBufferSize = SIZE_TABLE[index];
             decreaseNow = false;
         }
+        log.debug("UpdatedRecvBufSize: " + nextReceiveBufferSize);
     }
 }

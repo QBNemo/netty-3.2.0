@@ -337,7 +337,7 @@ class NioWorker implements Runnable {
                     bb.order(bufferFactory.getDefaultOrder()));
 
             recvBufferPool.release(bb);
-
+            log.debug("                                   ReceiveBytes: " + readBytes);  // 35
             // Update the predictor.
             predictor.previousReceiveBufferSize(readBytes);
 

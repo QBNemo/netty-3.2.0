@@ -116,6 +116,7 @@ public class ThreadRenamingRunnable implements Runnable {
                 // Revert the name back if the current thread was renamed.
                 // We do not check the exception here because we know it works.
                 currentThread.setName(oldThreadName);
+                log.debug("RevertRenaming: " + oldThreadName + " << " + newThreadName);
             }
         }
     }
