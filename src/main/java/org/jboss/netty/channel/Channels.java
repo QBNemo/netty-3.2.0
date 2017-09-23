@@ -630,6 +630,7 @@ public class Channels {
      *         write operation is done
      */
     public static ChannelFuture write(Channel channel, Object message, SocketAddress remoteAddress) {
+    	log.debug("interestOps: 0x" + Integer.toHexString(channel.getInterestOps()) + ", channel: " + channel.toString() + ", message: " + message.toString());
         ChannelFuture future = future(channel);
         channel.getPipeline().sendDownstream(
                 new DownstreamMessageEvent(channel, future, message, remoteAddress));
@@ -652,6 +653,7 @@ public class Channels {
     public static void write(
             ChannelHandlerContext ctx, ChannelFuture future,
             Object message, SocketAddress remoteAddress) {
+    	log.debug("interestOps: 0x" + Integer.toHexString(ctx.getChannel().getInterestOps()) + ", context: " + ctx.toString());
         ctx.sendDownstream(
                 new DownstreamMessageEvent(ctx.getChannel(), future, message, remoteAddress));
     }

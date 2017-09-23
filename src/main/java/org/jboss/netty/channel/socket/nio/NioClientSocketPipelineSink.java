@@ -150,7 +150,7 @@ class NioClientSocketPipelineSink extends AbstractChannelSink {
                 });
                 cf.addListener(ChannelFutureListener.CLOSE_ON_FAILURE);
                 channel.connectFuture = cf;
-                boss.register(channel);
+                boss.register(channel);  // new boss thread 
             }
 
         } catch (Throwable t) {
@@ -197,8 +197,9 @@ class NioClientSocketPipelineSink extends AbstractChannelSink {
                         bossExecutor.execute(
                                 new IoWorkerRunnable(
                                         new ThreadRenamingRunnable(
-                                                this, "New I/O client boss #" + id)));
+                                                this, "New I/O client boss #" + id)));  // boss start
                         success = true;
+                        log.debug(this.toString() + " :: " + channel.toString());
                     } finally {
                         if (!success) {
                             // Release the Selector if the execution fails.
@@ -351,7 +352,7 @@ class NioClientSocketPipelineSink extends AbstractChannelSink {
                 }
 
                 if (k.isConnectable()) {
-                    connect(k);
+                    connect(k);  // worker register
                 }
             }
         }
@@ -383,7 +384,7 @@ class NioClientSocketPipelineSink extends AbstractChannelSink {
             try {
                 if (ch.socket.finishConnect()) {
                     k.cancel();
-                    ch.worker.register(ch, ch.connectFuture);
+                    ch.worker.register(ch, ch.connectFuture);  // new worker thread
                 }
             } catch (Throwable t) {
                 ch.connectFuture.setFailure(t);
@@ -396,6 +397,16 @@ class NioClientSocketPipelineSink extends AbstractChannelSink {
             NioClientSocketChannel ch = (NioClientSocketChannel) k.attachment();
             ch.worker.close(ch, succeededFuture(ch));
         }
+        
+        // add
+    	@Override
+    	public String toString() {
+            StringBuilder buf = new StringBuilder(64);
+            buf.append("[");
+            buf.append("executor: " + bossExecutor.toString());
+            buf.append(']');
+            return buf.toString(); 
+    	}
     }
 
     private static final class RegisterTask implements Runnable {

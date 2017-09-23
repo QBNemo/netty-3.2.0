@@ -215,7 +215,7 @@ public class ClientBootstrap extends Bootstrap {
         }
 
         // Set the options.
-        Channel ch = getFactory().newChannel(pipeline);
+        Channel ch = getFactory().newChannel(pipeline); // NioClientSocketChannel, fireChannelOpen 
         ch.getConfig().setOptions(getOptions());
 
         // Bind.

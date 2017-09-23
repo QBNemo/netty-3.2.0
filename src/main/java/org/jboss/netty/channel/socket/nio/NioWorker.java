@@ -109,9 +109,9 @@ class NioWorker implements Runnable {
                 try {
                     executor.execute(
                             new IoWorkerRunnable(
-                                    new ThreadRenamingRunnable(this, threadName)));
+                                    new ThreadRenamingRunnable(this, threadName)));  // worker start
                     success = true;
-                    log.debug(this.toString() + " :: " + channel.toString()); // !started, 加入线程池
+                    log.debug(this.toString() + " :: " + channel.toString());
                 } finally {
                     if (!success) {
                         // Release the Selector if the execution fails.
