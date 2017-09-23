@@ -71,9 +71,9 @@ class NioServerSocketPipelineSink extends AbstractChannelSink {
             ChannelPipeline pipeline, ChannelEvent e) throws Exception {
         Channel channel = e.getChannel();
         if (channel instanceof NioServerSocketChannel) {
-            handleServerSocket(e);
+            handleServerSocket(e);    // main thread, NioServerSocketChannel bind
         } else if (channel instanceof NioSocketChannel) {
-            handleAcceptedSocket(e);
+            handleAcceptedSocket(e);  // worker thread, downstream
         }
     }
 
@@ -97,7 +97,7 @@ class NioServerSocketPipelineSink extends AbstractChannelSink {
             break;
         case BOUND:
             if (value != null) {
-                bind(channel, future, (SocketAddress) value);
+                bind(channel, future, (SocketAddress) value);  // new boss thread
             } else {
                 close(channel, future);
             }
@@ -159,7 +159,7 @@ class NioServerSocketPipelineSink extends AbstractChannelSink {
                                     new Boss(channel),
                                     "New I/O server boss #" + id +
                                     " (channelId: " + "0x"+Integer.toHexString(channel.getId()) +
-                                    ", " + channel.getLocalAddress() + ')')));
+                                    ", " + channel.getLocalAddress() + ')')));  // boss start
             bossStarted = true;
         } catch (Throwable t) {
             future.setFailure(t);
@@ -243,7 +243,8 @@ class NioServerSocketPipelineSink extends AbstractChannelSink {
                     }
 
                     SocketChannel acceptedSocket = channel.socket.accept();
-                    // 轮询等待新的客户端连接
+                    // 轮询等待新的客户端连接 
+                    // boss loop
                     if (acceptedSocket != null) {
                         registerAcceptedChannel(acceptedSocket, currentThread);
                     }
@@ -278,11 +279,12 @@ class NioServerSocketPipelineSink extends AbstractChannelSink {
                     channel.getConfig().getPipelineFactory().getPipeline();
                 NioWorker worker = nextWorker();
                 // log.debug(channel.toString() + " :: " + worker.toString()); // 未加入线程池, register加入
-                // New I/O server worker最多workers.length个, 被多个NioAcceptedSocketChannel复用
+                // New I/O server worker最多workers.length个, 被多个NioAcceptedSocketChannel复用  
+                // new worker thread
                 worker.register(new NioAcceptedSocketChannel(
                         channel.getFactory(), pipeline, channel,
                         NioServerSocketPipelineSink.this, acceptedSocket,
-                        worker, currentThread), null);
+                        worker, currentThread), null);  // NioAcceptedSocketChannel, fireChannelOpen, fireChannelBound, fireChannelConnected
             } catch (Exception e) {
                 logger.warn(
                         "Failed to initialize an accepted socket.", e);

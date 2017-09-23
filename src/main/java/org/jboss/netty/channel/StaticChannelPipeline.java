@@ -50,7 +50,7 @@ public class StaticChannelPipeline implements ChannelPipeline {
         new HashMap<String, StaticChannelHandlerContext>(4);
     
     protected Logger log = LoggerFactory.getLogger(this.getClass());
-    // parent channel使用StaticChannelPipeline, child channel使用DefaultChannelPipeline
+    // NioServerSocketChannel使用StaticChannelPipeline, NioAcceptedSocketChannel(NioSocketChannel)使用DefaultChannelPipeline
     
     /**
      * Creates a new pipeline from the specified handlers.

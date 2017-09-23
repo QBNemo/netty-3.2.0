@@ -284,7 +284,7 @@ public class ServerBootstrap extends Bootstrap {
             bossPipeline = new StaticChannelPipeline(binder);
         }
 
-        Channel channel = getFactory().newChannel(bossPipeline);
+        Channel channel = getFactory().newChannel(bossPipeline); // NioServerSocketChannel, fireChannelOpen
 
         // Wait until the future is available.
         ChannelFuture future = null;
@@ -349,7 +349,7 @@ public class ServerBootstrap extends Bootstrap {
                 ctx.sendUpstream(evt);
             }
 
-            boolean finished = futureQueue.offer(evt.getChannel().bind(localAddress));
+            boolean finished = futureQueue.offer(evt.getChannel().bind(localAddress));  // NioServerSocketChannel
             assert finished;
         }
 

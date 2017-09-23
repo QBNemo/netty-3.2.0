@@ -348,7 +348,7 @@ class NioWorker implements Runnable {
         }
 
         if (ret < 0 || failure) {
-            close(channel, succeededFuture(channel));
+            close(channel, succeededFuture(channel));  // fireChannelDisconnected, fireChannelUnbound, fireChannelClosed
             return false;
         }
 

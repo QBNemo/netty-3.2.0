@@ -84,7 +84,7 @@ class NioServerSocketChannel extends AbstractServerChannel
         
         log.debug(this.toString() +", " + this.getPipeline().toString()); // add
         
-        fireChannelOpen(this);
+        fireChannelOpen(this);  // NioServerSocketChannel StaticChannelPipeline
     }
 
     public ServerSocketChannelConfig getConfig() {
