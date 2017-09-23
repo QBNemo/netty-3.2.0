@@ -598,7 +598,7 @@ public class Channels {
      *         write operation is done
      */
     public static ChannelFuture write(Channel channel, Object message) {
-        return write(channel, message, null);
+        return write(channel, message, null); // channel write
     }
 
     /**

@@ -175,3 +175,9 @@ public class AdaptiveReceiveBufferSizePredictor implements
         log.debug("UpdatedRecvBufSize: " + nextReceiveBufferSize);
     }
 }
+
+/*
+ * http://lists.jboss.org/pipermail/netty-users/2010-January/001958.html
+ * receiveBufferSize: advices operating system kernel buffer, identical to Socket.setReceiveBufferSize() 
+ * receiveBufferSizePredictor: determines userspace buffer
+ */

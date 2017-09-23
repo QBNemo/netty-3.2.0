@@ -509,11 +509,11 @@ class NioWorker implements Runnable {
             channel.inWriteNowLoop = false;
         }
 
-        fireWriteComplete(channel, writtenBytes);
+        fireWriteComplete(channel, writtenBytes); // callstatck
 
         if (open) {
             if (addOpWrite) {
-                setOpWrite(channel);
+                setOpWrite(channel); // partial write
             } else if (removeOpWrite) {
                 clearOpWrite(channel);
             }

@@ -564,7 +564,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
         DefaultChannelHandlerContext tail = getActualDownstreamContext(this.tail);
         if (tail == null) {
             try {
-                getSink().eventSunk(this, e);
+                getSink().eventSunk(this, e);  // 交给Sink处理Downstream
                 return;
             } catch (Throwable t) {
                 notifyHandlerException(e, t);

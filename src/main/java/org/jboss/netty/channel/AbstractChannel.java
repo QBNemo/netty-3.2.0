@@ -259,7 +259,7 @@ public abstract class AbstractChannel implements Channel {
     }
 
     public ChannelFuture write(Object message) {
-        return Channels.write(this, message);
+        return Channels.write(this, message); // channel write
     }
 
     public ChannelFuture write(Object message, SocketAddress remoteAddress) {
