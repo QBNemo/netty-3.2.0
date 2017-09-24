@@ -135,7 +135,7 @@ public abstract class AbstractSocketServerBootstrapTest {
                     ((InetSocketAddress) channel.getLocalAddress()).getPort());
 
             // Wait until the connection is open in the server side.
-            while (pch.child == null) {
+            while (pch.child == null) {  // 等待boss线程处理结果, childChannelOpen
                 Thread.yield();
             }
 
@@ -152,7 +152,7 @@ public abstract class AbstractSocketServerBootstrapTest {
                     // Ignore.
                 }
             }
-            channel.close().awaitUninterruptibly();
+            channel.close().awaitUninterruptibly();  // 假设上面socket不关闭, 此处关闭channel不会导致该socket关闭
         }
 
         // Wait until the child connection is closed in the client side.
@@ -166,7 +166,7 @@ public abstract class AbstractSocketServerBootstrapTest {
         }
 
         // Wait until all child events are fired.
-        while (pch.result.length() < 2) {
+        while (pch.result.length() < 2) {  // 等待worker线程处理结果, childChannelClosed
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {

@@ -71,7 +71,7 @@ class NioServerSocketPipelineSink extends AbstractChannelSink {
             ChannelPipeline pipeline, ChannelEvent e) throws Exception {
         Channel channel = e.getChannel();
         if (channel instanceof NioServerSocketChannel) {
-            handleServerSocket(e);    // main thread, NioServerSocketChannel bind
+            handleServerSocket(e);    // main thread, NioServerSocketChannel bind, close
         } else if (channel instanceof NioSocketChannel) {
             handleAcceptedSocket(e);  // worker thread, downstream
         }
@@ -175,7 +175,7 @@ class NioServerSocketPipelineSink extends AbstractChannelSink {
         boolean bound = channel.isBound();
         try {
             if (channel.socket.isOpen()) {
-                channel.socket.close();
+                channel.socket.close();    // boss ClosedChannelException
                 Selector selector = channel.selector;
                 if (selector != null) {
                     selector.wakeup();
@@ -257,7 +257,7 @@ class NioServerSocketPipelineSink extends AbstractChannelSink {
                     // Raised by accept() when the server socket was closed.
                 } catch (ClosedChannelException e) {
                     // Closed as requested.
-                    break;
+                    break;                          // NioServerSocketChannel close
                 } catch (IOException e) {
                     logger.warn(
                             "Failed to accept a connection.", e);

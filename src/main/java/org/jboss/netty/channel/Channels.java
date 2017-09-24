@@ -99,7 +99,7 @@ public class Channels {
     public static ChannelPipeline pipeline(ChannelPipeline pipeline) {
         ChannelPipeline newPipeline = pipeline();
         for (Map.Entry<String, ChannelHandler> e: pipeline.toMap().entrySet()) {
-            newPipeline.addLast(e.getKey(), e.getValue());
+            newPipeline.addLast(e.getKey(), e.getValue());      // 复制引用
         }
         return newPipeline;
     }
