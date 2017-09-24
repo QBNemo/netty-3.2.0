@@ -89,7 +89,7 @@ public abstract class AbstractSocketClientBootstrapTest {
                     new InetSocketAddress(
                             TestUtil.getLocalHost(),
                             serverSocket.socket().getLocalPort()));
-
+            // 不设置localAddress, BOUND, CONNECTED都在worker线程
             ChannelFuture future = bootstrap.connect();
             serverSocket.accept();
             future.awaitUninterruptibly();
@@ -126,7 +126,7 @@ public abstract class AbstractSocketClientBootstrapTest {
                     new InetSocketAddress(
                             TestUtil.getLocalHost(),
                             serverSocket.socket().getLocalPort()));
-            bootstrap.setOption("localAddress", new InetSocketAddress(0));
+            bootstrap.setOption("localAddress", new InetSocketAddress(0));  //设置localAddress, OPEN, BOUND同在主线程   
 
             ChannelFuture future = bootstrap.connect();
             serverSocket.accept();

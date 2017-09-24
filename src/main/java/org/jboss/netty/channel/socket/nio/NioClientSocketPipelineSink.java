@@ -100,7 +100,7 @@ class NioClientSocketPipelineSink extends AbstractChannelSink {
                 break;
             case CONNECTED:
                 if (value != null) {
-                    connect(channel, future, (SocketAddress) value);
+                    connect(channel, future, (SocketAddress) value);  // connect server
                 } else {
                     channel.worker.close(channel, future);
                 }
@@ -304,7 +304,7 @@ class NioClientSocketPipelineSink extends AbstractChannelSink {
                                     } finally {
                                         this.selector = null;
                                     }
-                                    break;
+                                    break;  //  boss break
                                 } else {
                                     shutdown = false;
                                 }

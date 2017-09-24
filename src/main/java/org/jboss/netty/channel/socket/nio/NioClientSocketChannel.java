@@ -80,7 +80,7 @@ final class NioClientSocketChannel extends NioSocketChannel {
             ChannelFactory factory, ChannelPipeline pipeline,
             ChannelSink sink, NioWorker worker) {
 
-        super(null, factory, pipeline, sink, newSocket(), worker);
+        super(null, factory, pipeline, sink, newSocket(), worker);  // newSocket() configureBlocking(false)
         fireChannelOpen(this);
     }
 }

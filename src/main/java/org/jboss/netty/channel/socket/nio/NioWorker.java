@@ -192,7 +192,7 @@ class NioWorker implements Runnable {
                 }
 
                 cancelledKeys = 0;
-                processRegisterTaskQueue();
+                processRegisterTaskQueue();  // RegisterTask, fireChannelBound, fireChannelConnected
                 processWriteTaskQueue();
                 processSelectedKeys(selector.selectedKeys());
 
@@ -216,7 +216,7 @@ class NioWorker implements Runnable {
                                 } finally {
                                     this.selector = null;
                                 }
-                                break;
+                                break;  // worker break;
                             } else {
                                 shutdown = false;
                             }
@@ -582,7 +582,7 @@ class NioWorker implements Runnable {
         boolean connected = channel.isConnected();
         boolean bound = channel.isBound();
         try {
-            channel.socket.close();
+            channel.socket.close();  // worker break
             cancelledKeys ++;
 
             if (channel.setClosed()) {
@@ -780,8 +780,8 @@ class NioWorker implements Runnable {
                 }
             }
 
-            if (!server) {
-                if (!((NioClientSocketChannel) channel).boundManually) {
+            if (!server) {  // client worker
+                if (!((NioClientSocketChannel) channel).boundManually) {  // 设置localAddress, boundManually
                     fireChannelBound(channel, localAddress);
                 }
                 fireChannelConnected(channel, remoteAddress);

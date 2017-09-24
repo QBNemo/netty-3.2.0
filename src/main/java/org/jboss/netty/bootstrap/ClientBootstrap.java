@@ -220,7 +220,7 @@ public class ClientBootstrap extends Bootstrap {
 
         // Bind.
         if (localAddress != null) {
-            ch.bind(localAddress);
+            ch.bind(localAddress);  // fireChannelBound, OPEN, BOUND都在主线程
         }
 
         // Connect.
